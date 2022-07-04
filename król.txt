@@ -1,0 +1,9 @@
+col = int(input())
+row = int(input())
+colNew = int(input())
+rowNew = int(input())
+
+if (col == colNew + 1 or col == colNew - 1 or col == colNew) and (row == rowNew + 1 or row == rowNew - 1 or row == rowNew):
+    print ("YES")
+else:
+    print ("NO")

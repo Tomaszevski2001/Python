@@ -1,0 +1,8 @@
+kol = int(input())
+wiersz = int(input())
+kolN = int(input())
+wierszN = int(input())
+if kol == kolN or wiersz == wierszN:
+    print("YES")
+else:
+    print("NO")
