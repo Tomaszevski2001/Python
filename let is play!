@@ -1,0 +1,59 @@
+import tkinter as tk
+from tkinter import messagebox
+
+# Funkcja sprawdzająca zwycięstwo
+def check_winner():
+    for i in range(3):
+        # Sprawdzenie wierszy
+        if board[i][0]['text'] == board[i][1]['text'] == board[i][2]['text'] != "":
+            return board[i][0]['text']
+        # Sprawdzenie kolumn
+        if board[0][i]['text'] == board[1][i]['text'] == board[2][i]['text'] != "":
+            return board[0][i]['text']
+    # Sprawdzenie przekątnych
+    if board[0][0]['text'] == board[1][1]['text'] == board[2][2]['text'] != "":
+        return board[0][0]['text']
+    if board[0][2]['text'] == board[1][1]['text'] == board[2][0]['text'] != "":
+        return board[0][2]['text']
+    return None
+
+# Funkcja odpowiedzialna za ruch gracza
+def make_move(row, col):
+    global current_player
+    if board[row][col]['text'] == "" and current_player:
+        board[row][col]['text'] = current_player
+        winner = check_winner()
+        if winner:
+            messagebox.showinfo("Koniec gry", f"Gracz {winner} wygrał!")
+            reset_board()
+        elif all(board[i][j]['text'] != "" for i in range(3) for j in range(3)):
+            messagebox.showinfo("Koniec gry", "Remis!")
+            reset_board()
+        else:
+            current_player = "O" if current_player == "X" else "X"
+
+# Funkcja resetująca planszę
+def reset_board():
+    global current_player
+    current_player = "X"
+    for i in range(3):
+        for j in range(3):
+            board[i][j]['text'] = ""
+
+# Inicjalizacja okna aplikacji
+root = tk.Tk()
+root.title("Kółko i krzyżyk")
+
+current_player = "X"
+board = [[None, None, None], [None, None, None], [None, None, None]]
+
+# Tworzenie przycisków do planszy 3x3
+for i in range(3):
+    for j in range(3):
+        button = tk.Button(root, text="", font=('normal', 40), width=5, height=2,
+                           command=lambda i=i, j=j: make_move(i, j))
+        button.grid(row=i, column=j)
+        board[i][j] = button
+
+# Uruchomienie głównej pętli aplikacji
+root.mainloop()
